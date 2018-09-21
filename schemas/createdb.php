@@ -242,6 +242,30 @@ try {
 
     $connection->execute("INSERT INTO users VALUES (1,'demo', 'c0bd96dc7ea4ec56741a4e07f6ce98012814d853','Phalcon Demo','demo@phalconphp.com','2012-04-10 20:53:03','Y')");
 
+    $connection->createTable(
+        'directors',
+        null,
+        [
+            'columns' => [
+                new Column('id', [
+                    'type'          => Column::TYPE_INTEGER,
+                    'size'          => 10,
+                    'unsigned'      => true,
+                    'notNull'       => true,
+                    'autoIncrement' => true
+                ]),
+                new Column('name', [
+                    'type'    => Column::TYPE_VARCHAR,
+                    'size'    => 70,
+                    'notNull' => true
+                ]),
+            ],
+            "indexes" => [
+                new Index('PRIMARY', ["id"], 'PRIMARY')
+            ]
+        ]
+    );
+
     $connection->commit();
 
 } catch (\Exception $e) {

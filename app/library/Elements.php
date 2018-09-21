@@ -57,6 +57,11 @@ class Elements extends Component
             'action' => 'index',
             'any' => true
         ],
+        'Directors' => [
+            'controller' => 'directors',
+            'action' => 'index',
+            'any' => true
+        ],
         'Your Profile' => [
             'controller' => 'invoices',
             'action' => 'profile',

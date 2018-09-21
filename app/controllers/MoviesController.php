@@ -4,15 +4,15 @@ use Phalcon\Flash;
 use Phalcon\Session;
 
 /**
- * InvoicesController
+ * MoviesController
  *
  * Manage operations for invoices
  */
-class InvoicesController extends ControllerBase
+class MoviesController extends ControllerBase
 {
     public function initialize()
     {
-        $this->tag->setTitle('Manage your Invoices');
+        $this->tag->setTitle('Manage your Movies');
         parent::initialize();
     }
 
