@@ -8,6 +8,9 @@
 
 use Phalcon\Mvc\Model;
 
+/**
+ * Movies
+ */
 class Movies extends Model
 {
     /**
@@ -29,8 +32,9 @@ class Movies extends Model
         $this->belongsTo(
             'directors_id',
             'Directors',
-            'id'
-        );
+            'id', [
+                'reusable' => true
+            ]);
         $this->hasManyToMany(
             'id',
             'ActorsMovies',
@@ -38,5 +42,22 @@ class Movies extends Model
             'Actors',
             'id'
         );
+    }
+
+    /**
+     * Returns the list of the actors' names
+     *
+     * @return string
+     */
+    public function getActorsNames()
+    {
+        $names = '';
+        $actors = $this->getActors();
+
+        foreach ($actors as $actor) {
+            $names += $actor->name + ', ';
+        }
+
+        return rtrim($names,", ");
     }
 }

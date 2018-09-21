@@ -266,6 +266,75 @@ try {
         ]
     );
 
+    $connection->createTable(
+        'actors',
+        null,
+        [
+            'columns' => [
+                new Column('id', [
+                    'type'          => Column::TYPE_INTEGER,
+                    'size'          => 10,
+                    'unsigned'      => true,
+                    'notNull'       => true,
+                    'autoIncrement' => true
+                ]),
+                new Column('name', [
+                    'type'    => Column::TYPE_VARCHAR,
+                    'size'    => 70,
+                    'notNull' => true
+                ]),
+            ],
+            "indexes" => [
+                new Index('PRIMARY', ["id"], 'PRIMARY')
+            ]
+        ]
+    );
+
+    $connection->createTable(
+        'movies',
+        null,
+        [
+            'columns' => [
+                new Column('id', [
+                    'type'          => Column::TYPE_INTEGER,
+                    'size'          => 10,
+                    'unsigned'      => true,
+                    'notNull'       => true,
+                    'autoIncrement' => true
+                ]),
+                new Column('name', [
+                    'type'    => Column::TYPE_VARCHAR,
+                    'size'    => 70,
+                    'notNull' => true
+                ]),
+            ],
+            "indexes" => [
+                new Index('PRIMARY', ["id"], 'PRIMARY')
+            ]
+        ]
+    );
+
+    $connection->createTable(
+        'actors_movies',
+        null,
+        [
+            'columns' => [
+                new Column('actors_id', [
+                    'type'          => Column::TYPE_INTEGER,
+                    'size'          => 10,
+                    'unsigned'      => true,
+                    'notNull'       => true
+                ]),
+                new Column('movies_id', [
+                    'type'          => Column::TYPE_INTEGER,
+                    'size'          => 10,
+                    'unsigned'      => true,
+                    'notNull'       => true
+                ])
+            ]
+        ]
+    );
+
     $connection->commit();
 
 } catch (\Exception $e) {

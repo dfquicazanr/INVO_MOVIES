@@ -25,7 +25,10 @@ class Directors extends Model
         $this->hasMany(
             'id',
             'Movies',
-            'directors_id'
-        );
+            'directors_id', [
+                'foreignKey' => [
+                    'message' => 'Director cannot be deleted because it\'s used in Movies'
+                ]
+        ]);
     }
 }

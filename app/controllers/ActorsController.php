@@ -2,17 +2,18 @@
 
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\Model as Paginator;
-
 /**
- * MoviesController
- *
- * Manage operations for invoices
+ * Created by PhpStorm.
+ * User: Dany1
+ * Date: 21/09/2018
+ * Time: 12:06 AM
  */
-class MoviesController extends ControllerBase
+
+class ActorsController extends ControllerBase
 {
     public function initialize()
     {
-        $this->tag->setTitle('Manage your movies');
+        $this->tag->setTitle('Manage your actors');
         parent::initialize();
     }
 
@@ -22,17 +23,17 @@ class MoviesController extends ControllerBase
     public function indexAction()
     {
         $this->session->conditions = null;
-        $this->view->form = new MoviesForm;
+        $this->view->form = new ActorsForm;
     }
 
     /**
-     * Search movies based on current criteria
+     * Search actors based on current criteria
      */
     public function searchAction()
     {
         $numberPage = 1;
         if ($this->request->isPost()) {
-            $query = Criteria::fromInput($this->di, "Movies", $this->request->getPost());
+            $query = Criteria::fromInput($this->di, "Actors", $this->request->getPost());
             $this->persistent->searchParams = $query->getParams();
         } else {
             $numberPage = $this->request->getQuery("page", "int");
@@ -43,99 +44,99 @@ class MoviesController extends ControllerBase
             $parameters = $this->persistent->searchParams;
         }
 
-        $movies = Movies::find($parameters);
-        if (count($movies) == 0) {
-            $this->flash->notice("The search did not find any movies");
+        $actors = Actors::find($parameters);
+        if (count($actors) == 0) {
+            $this->flash->notice("The search did not find any actors");
 
             return $this->dispatcher->forward(
                 [
-                    "controller" => "movies",
+                    "controller" => "actors",
                     "action"     => "index",
                 ]
             );
         }
 
         $paginator = new Paginator([
-            "data"  => $movies,
+            "data"  => $actors,
             "limit" => 10,
             "page"  => $numberPage
         ]);
 
         $this->view->page = $paginator->getPaginate();
-        $this->view->movies = $movies;
+        $this->view->actors = $actors;
     }
 
     /**
-     * Shows the form to create a new movie
+     * Shows the form to create a new actor
      */
     public function newAction()
     {
-        $this->view->form = new MoviesForm(null, ['edit' => true]);
+        $this->view->form = new ActorsForm(null, ['edit' => true]);
     }
 
     /**
-     * Edits a movie based on its id
+     * Edits a actor based on its id
      */
     public function editAction($id)
     {
 
         if (!$this->request->isPost()) {
 
-            $movie = Movies::findFirstById($id);
-            if (!$movie) {
-                $this->flash->error("Movie was not found");
+            $actor = Actors::findFirstById($id);
+            if (!$actor) {
+                $this->flash->error("Actor was not found");
 
                 return $this->dispatcher->forward(
                     [
-                        "controller" => "movies",
+                        "controller" => "actors",
                         "action"     => "index",
                     ]
                 );
             }
 
-            $this->view->form = new MoviesForm($movie, ['edit' => true]);
+            $this->view->form = new ActorsForm($actor, ['edit' => true]);
         }
     }
 
     /**
-     * Creates a new movie
+     * Creates a new actor
      */
     public function createAction()
     {
         if (!$this->request->isPost()) {
             return $this->dispatcher->forward(
                 [
-                    "controller" => "movies",
+                    "controller" => "actors",
                     "action"     => "index",
                 ]
             );
         }
 
-        $form = new MoviesForm;
-        $movie = new Movies();
+        $form = new ActorsForm;
+        $actor = new Actors();
 
         $data = $this->request->getPost();
-        if (!$form->isValid($data, $movie)) {
+        if (!$form->isValid($data, $actor)) {
             foreach ($form->getMessages() as $message) {
                 $this->flash->error($message);
             }
 
             return $this->dispatcher->forward(
                 [
-                    "controller" => "movies",
+                    "controller" => "actors",
                     "action"     => "new",
                 ]
             );
         }
 
-        if ($movie->save() == false) {
-            foreach ($movie->getMessages() as $message) {
+        if ($actor->save() == false) {
+            foreach ($actor->getMessages() as $message) {
                 $this->flash->error($message);
             }
 
             return $this->dispatcher->forward(
                 [
-                    "controller" => "movies",
+                    "controller" => "actors",
                     "action"     => "new",
                 ]
             );
@@ -143,18 +144,18 @@ class MoviesController extends ControllerBase
 
         $form->clear();
 
-        $this->flash->success("Movie was created successfully");
+        $this->flash->success("Actor was created successfully");
 
         return $this->dispatcher->forward(
             [
-                "controller" => "movies",
+                "controller" => "actors",
                 "action"     => "index",
             ]
         );
     }
 
     /**
-     * Saves current movie in screen
+     * Saves current actor in screen
      *
      * @param string $id
      */
@@ -163,49 +164,49 @@ class MoviesController extends ControllerBase
         if (!$this->request->isPost()) {
             return $this->dispatcher->forward(
                 [
-                    "controller" => "movies",
+                    "controller" => "actors",
                     "action"     => "index",
                 ]
             );
         }
 
         $id = $this->request->getPost("id", "int");
-        $movie = Movies::findFirstById($id);
-        if (!$movie) {
-            $this->flash->error("Movie does not exist");
+        $actor = Actors::findFirstById($id);
+        if (!$actor) {
+            $this->flash->error("Actor does not exist");
 
             return $this->dispatcher->forward(
                 [
-                    "controller" => "movies",
+                    "controller" => "actors",
                     "action"     => "index",
                 ]
             );
         }
 
-        $form = new MoviesForm;
+        $form = new ActorsForm;
 
         $data = $this->request->getPost();
-        if (!$form->isValid($data, $movie)) {
+        if (!$form->isValid($data, $actor)) {
             foreach ($form->getMessages() as $message) {
                 $this->flash->error($message);
             }
 
             return $this->dispatcher->forward(
                 [
-                    "controller" => "movies",
+                    "controller" => "actors",
                     "action"     => "new",
                 ]
             );
         }
 
-        if ($movie->save() == false) {
-            foreach ($movie->getMessages() as $message) {
+        if ($actor->save() == false) {
+            foreach ($actor->getMessages() as $message) {
                 $this->flash->error($message);
             }
 
             return $this->dispatcher->forward(
                 [
-                    "controller" => "movies",
+                    "controller" => "actors",
                     "action"     => "new",
                 ]
             );
@@ -213,54 +214,54 @@ class MoviesController extends ControllerBase
 
         $form->clear();
 
-        $this->flash->success("Movie was updated successfully");
+        $this->flash->success("Actor was updated successfully");
 
         return $this->dispatcher->forward(
             [
-                "controller" => "movies",
+                "controller" => "actors",
                 "action"     => "index",
             ]
         );
     }
 
     /**
-     * Deletes a movie
+     * Deletes a actor
      *
      * @param string $id
      */
     public function deleteAction($id)
     {
 
-        $movies = Movies::findFirstById($id);
-        if (!$movies) {
-            $this->flash->error("Movie was not found");
+        $actors = Actors::findFirstById($id);
+        if (!$actors) {
+            $this->flash->error("Actor was not found");
 
             return $this->dispatcher->forward(
                 [
-                    "controller" => "movies",
+                    "controller" => "actors",
                     "action"     => "index",
                 ]
             );
         }
 
-        if (!$movies->delete()) {
-            foreach ($movies->getMessages() as $message) {
+        if (!$actors->delete()) {
+            foreach ($actors->getMessages() as $message) {
                 $this->flash->error($message);
             }
 
             return $this->dispatcher->forward(
                 [
-                    "controller" => "movies",
+                    "controller" => "actors",
                     "action"     => "search",
                 ]
             );
         }
 
-        $this->flash->success("Movie was deleted");
+        $this->flash->success("Actor was deleted");
 
         return $this->dispatcher->forward(
             [
-                "controller" => "movies",
+                "controller" => "actors",
                 "action"     => "index",
             ]
         );

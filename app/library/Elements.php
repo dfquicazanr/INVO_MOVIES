@@ -62,6 +62,16 @@ class Elements extends Component
             'action' => 'index',
             'any' => true
         ],
+        'Actors' => [
+            'controller' => 'actors',
+            'action' => 'index',
+            'any' => true
+        ],
+        'Movies' => [
+            'controller' => 'movies',
+            'action' => 'index',
+            'any' => true
+        ],
         'Your Profile' => [
             'controller' => 'invoices',
             'action' => 'profile',
