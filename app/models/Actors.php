@@ -22,10 +22,15 @@ class Actors extends Model
     public $name;
 
     public function initialize() {
+        $this->hasMany(
+            'id',
+            'ActorsMovies',
+            'actors_id'
+        );
         $this->hasManyToMany(
             'id',
             'ActorsMovies',
-            'Actors_id', 'Movies_id',
+            'actors_id', 'movies_id',
             'Movies',
             'id'
         );

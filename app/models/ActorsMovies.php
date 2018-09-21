@@ -14,12 +14,12 @@ class ActorsMovies extends Model
     public function initialize() {
         $this->belongsTo(
             'actors_id',
-            'actors',
+            'Actors',
             'id'
         );
         $this->belongsTo(
             'movies_id',
-            'movies',
+            'Movies',
             'id'
         );
     }

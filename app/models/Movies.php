@@ -35,10 +35,16 @@ class Movies extends Model
             'id', [
                 'reusable' => true
             ]);
+        $this->hasMany(
+            'id',
+            'ActorsMovies',
+            'movies_id'
+        );
         $this->hasManyToMany(
             'id',
             'ActorsMovies',
-            'Actors_id', 'Movies_id',
+            'movies_id',
+            'actors_id',
             'Actors',
             'id'
         );
